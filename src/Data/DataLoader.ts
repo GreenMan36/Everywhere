@@ -1,18 +1,23 @@
 import Config from "../config";
-import {type GameOverviewResponse, type GameOverviewData} from "./GameOverviewTypes";
+import {
+    type GameOverviewResponse,
+    type GameOverviewData,
+} from "./GameOverviewTypes";
 import SteamId from "./SteamId";
 
 // TODO implement better caching
 const cache: Map<string, GameOverviewData> = new Map();
 
-export async function fetchGameOverview(steamId: SteamId): Promise<GameOverviewData|null> {
+export async function fetchGameOverview(
+    steamId: SteamId
+): Promise<GameOverviewData | null> {
     const idStr = steamId.toString();
 
     if (!cache.has(idStr)) {
         const params = new URLSearchParams({
             key: Config.apiKey,
             shop: "steam",
-            ids: steamId.toString()
+            ids: steamId.toString(),
         });
 
         const feedURL = `https://api.isthereanydeal.com/v01/game/overview/?${params}`;
@@ -23,7 +28,9 @@ export async function fetchGameOverview(steamId: SteamId): Promise<GameOverviewD
             if (json) {
                 const response = json as GameOverviewResponse;
 
-                for (const [id, data] of Object.entries<GameOverviewData>(response.data)) {
+                for (const [id, data] of Object.entries<GameOverviewData>(
+                    response.data
+                )) {
                     cache.set(id, data);
                     console.log(id, data);
                 }

@@ -1,5 +1,5 @@
-import Modal from "./components/Modal.svelte";
-import {handleSteamLinks} from "./Handlers/SteamLinksHandler";
+import Modal from "./Components/Modal.svelte";
+import { handleSteamLinks } from "./Handlers/SteamLinksHandler";
 
 const blacklist = [
     "isthereanydeal.com",
@@ -21,7 +21,7 @@ if (isBlacklisted) {
     throw new Error();
 } else {
     const modal = new Modal({
-        target: document.body
+        target: document.body,
     });
 
     /*
@@ -43,5 +43,3 @@ if (isBlacklisted) {
     observer.observe(document, { childList: true, subtree: true });
     handleSteamLinks(modal);
 }
-
-

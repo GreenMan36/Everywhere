@@ -1,13 +1,17 @@
-import InlineIcon from "../components/InlineIcon.svelte";
-import Modal from "../components/Modal.svelte";
+import InlineIcon from "../Components/InlineIcon.svelte";
+import Modal from "../Components/Modal.svelte";
 import SteamId from "../Data/SteamId";
-import {getAppendableNode} from "../utils";
+import { getAppendableNode } from "../utils";
 
-export function handleSteamLinks(modal: Modal, root: ParentNode | undefined = undefined) {
+export function handleSteamLinks(
+    modal: Modal,
+    root: ParentNode | undefined = undefined
+) {
     root = root ?? document;
 
-    const links: NodeListOf<HTMLAnchorElement>
-        = root.querySelectorAll("a[href*='//store.steampowered.com/']:not([data-itad-e='1'])");
+    const links: NodeListOf<HTMLAnchorElement> = root.querySelectorAll(
+        "a[href*='//store.steampowered.com/']:not([data-itad-e='1'])"
+    );
     const regex = /\/\/store.steampowered.com\/((?:app|apps|sub|bundle)\/[0-9]+)/;
 
     for (const a of links) {
@@ -20,15 +24,17 @@ export function handleSteamLinks(modal: Modal, root: ParentNode | undefined = un
 
                 // TODO can this be done without casts?
                 const target = (node?.parentNode ?? a) as Element;
-                const anchor = node?.nextSibling ? <Element>node.nextSibling : undefined
+                const anchor = node?.nextSibling
+                    ? <Element>node.nextSibling
+                    : undefined;
 
                 new InlineIcon({
                     target,
                     anchor,
                     props: {
                         modal,
-                        id: steamId
-                    }
+                        id: steamId,
+                    },
                 });
             } catch (e) {
                 console.log("Didn't find node to append to", a.href);
