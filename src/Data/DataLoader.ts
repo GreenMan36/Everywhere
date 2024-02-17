@@ -10,7 +10,7 @@ export async function fetchGameOverview(steamId: SteamId): Promise<GameOverviewD
 
     if (!cache.has(idStr)) {
         const params = new URLSearchParams({
-            key: Config.ITAD.apiKey,
+            key: Config.apiKey,
             shop: "steam",
             ids: steamId.toString()
         });
